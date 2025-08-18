@@ -1,0 +1,30 @@
+{
+  "name": "ginaai-backend",
+  "version": "1.0.0",
+  "description": "Backend server for GinaAI conversational assistant",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "ai",
+    "chat",
+    "assistant",
+    "gina"
+  ],
+  "author": "fatima bashir",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^12.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^4.104.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

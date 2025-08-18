@@ -1,0 +1,54 @@
+/* @author: fatima bashir */
+.App {
+  text-align: center;
+}
+
+.gina-gradient {
+  background: linear-gradient(135deg, #d946ef 0%, #0ea5e9 100%);
+}
+
+.text-gradient {
+  color: #5B7F71 !important; /* Deep Sage - always visible */
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.chat-container {
+  height: calc(100vh - 200px);
+  max-height: 600px;
+}
+
+.message-container {
+  scroll-behavior: smooth;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes typing {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.typing-animation {
+  animation: typing 1s infinite;
+}
+
+/* Toast Progress Bar Animation */
+@keyframes progress {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+.animate-progress {
+  animation-name: progress;
+} 

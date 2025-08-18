@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Audio Test</title>
+</head>
+<body>
+    <h1>Audio Test</h1>
+    <button id="testBtn">Test Web Audio API</button>
+    <div id="status"></div>
+    
+    <script>
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            const status = document.getElementById('status');
+            try {
+                status.textContent = 'Starting audio context...';
+                
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                
+                // Resume if suspended
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+                
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 440; // A4 note
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                
+                oscillator.start();
+                
+                status.textContent = '✅ Playing 440Hz sine wave!';
+                
+                // Stop after 2 seconds
+                setTimeout(() => {
+                    oscillator.stop();
+                    audioContext.close();
+                    status.textContent = '✅ Audio test completed!';
+                }, 2000);
+                
+            } catch (error) {
+                status.textContent = `❌ Error: ${error.message}`;
+                console.error('Audio test failed:', error);
+            }
+        });
+    </script>
+</body>
+</html>

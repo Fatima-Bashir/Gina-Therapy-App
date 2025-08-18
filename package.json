@@ -1,0 +1,30 @@
+{
+  "name": "ginaai-app",
+  "version": "1.0.0",
+  "description": "GinaAI - Full-stack conversational AI assistant with voice capabilities",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install",
+    "start-backend": "cd backend && npm start",
+    "start-frontend": "cd frontend && npm start",
+    "dev-backend": "cd backend && npm run dev",
+    "dev-frontend": "cd frontend && npm start",
+    "build-frontend": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "ai",
+    "chatbot",
+    "voice",
+    "react",
+    "nodejs",
+    "gina"
+  ],
+  "author": "fatima bashir",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "dependencies": {
+    "node": "^24.5.0"
+  }
+}
