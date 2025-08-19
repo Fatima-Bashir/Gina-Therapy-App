@@ -208,7 +208,7 @@ function buildUserContextString(userId) {
 // Chat endpoint - placeholder for AI integration
 app.post('/chat', async (req, res) => {
     try {
-        let { message, conversationHistory = [], mentalMetrics = null } = req.body || {};
+        let { message, conversationHistory = [], mentalMetrics = null, journalContext = null } = req.body || {};
 
         if (!message) {
             return res.status(400).json({ error: 'Message is required' });
@@ -260,6 +260,13 @@ app.post('/chat', async (req, res) => {
                 }
             }
         } catch (_) { /* ignore malformed metrics */ }
+
+        // Add journal context if provided
+        if (journalContext && typeof journalContext === 'string') {
+            memoryPreamble = memoryPreamble 
+                ? `${memoryPreamble}\n\n${journalContext}`
+                : journalContext;
+        }
 
         // Get AI response from OpenAI GPT-4o, passing context as an additional system message
         const aiResponse = await getOpenAIResponse(message, conversationHistory, memoryPreamble);
@@ -655,7 +662,7 @@ async function getOpenAIResponse(userMessage, conversationHistory, extraSystemCo
         const emotionalContext = detectEmotionalContext(userMessage);
         
         // Build conversation context from history
-        let systemPrompt = `You are Gina, a helpful and intelligent AI assistant. You are designed to be conversational, friendly, and helpful. Keep your responses natural and engaging. You support both text and voice interactions, so keep responses clear and well-structured for speech synthesis.
+        let systemPrompt = `You are Ava, a helpful and intelligent AI assistant. You are designed to be conversational, friendly, and helpful. Keep your responses natural and engaging. You support both text and voice interactions, so keep responses clear and well-structured for speech synthesis.
 
 Key personality traits:
 - Friendly and approachable
@@ -665,13 +672,23 @@ Key personality traits:
 - Clear and concise communication
 - Emotionally intelligent and empathetic
 
-Always identify yourself as Gina when appropriate, and maintain a consistent, helpful personality throughout the conversation.
+Always identify yourself as Ava when appropriate, and maintain a consistent, helpful personality throughout the conversation.
 
  MEMORY POLICY:
  - For authenticated users, you have persistent memory of personal facts and intake details.
  - You may be provided short context strings that include facts (e.g., suggested therapy, goals, preferences).
  - Use remembered facts naturally (e.g., "I recall you mentioned...").
  - Do not say you cannot remember; if a detail is unknown, ask a clarifying question instead.
+
+ JOURNAL DISCUSSION MODE:
+ When provided with journal entry context, you are helping the user reflect on and process their journal entry. In this mode:
+ - Reference the journal entry naturally and thoughtfully
+ - Help them explore emotions, patterns, and insights from their writing
+ - Ask open-ended questions to encourage deeper reflection
+ - Validate their feelings and experiences
+ - Offer gentle guidance and perspective when appropriate
+ - Focus on the specific content they wrote about
+ - Help them connect current feelings to what they wrote
 
 RESOURCE KNOWLEDGE BASE - When users ask for resources, help, or support, you can provide relevant links from this knowledge base:
 
